@@ -47,7 +47,7 @@ ui <- fluidPage(
                   c('Both', sponsor_types_u$lead_or_collaborator)),
       
       selectInput("top_n_conditions", "Top N Trial Conditions to Query",
-                  choices=seq(2, 13), selected=6)
+                  choices=seq(4, 16), selected=6)
     ),
 
     # Show a plot of the generated distribution

@@ -10,11 +10,10 @@ library(forcats)
 
 
 # Create the connection to a database and "studies" and "sponsors" tables.
-project_dir <- "/Users/adan_rivas/Library/CloudStorage/OneDrive-YaleUniversity/
-Classes/Fall 2023/BIS 620 Data Science Software Systems/midterm"
+project_dir <- "/Users/adan_rivas/Library/CloudStorage/OneDrive-YaleUniversity/Classes/Fall 2023/BIS 620 Data Science Software Systems/midterm/"
 db_dir <- file.path(project_dir, "ctrialsgovdb")
-con = dbConnect(
-  duckdb(
+con = duckdb::dbConnect(
+  duckdb::duckdb(
     file.path(db_dir, "ctgov.duckdb"), 
     read_only = TRUE
   )
@@ -295,7 +294,7 @@ plot_study_conditions_histogram <- function(studies_df, top_n = 8) {
       "study_cond_plot" = ggplot()))
   }
   
-  summ_study_conditions_df <- summarize_study_condtions(
+  summ_study_conditions_df <- summarize_study_conditions(
     study_conditions_df = study_conditions_df, top_n = top_n)
   
   study_cond_col_plt <- ggplot(
@@ -304,6 +303,11 @@ plot_study_conditions_histogram <- function(studies_df, top_n = 8) {
     theme_bw() +
     xlab("Study Condition") +
     ylab("Count")
+  
+  if (top_n > 6) {
+    # flip coordinates - make horizontal column chart
+    study_cond_col_plt <- study_cond_col_plt + coord_flip()
+  }
   
   return (list(
     "summ_df" = summ_study_conditions_df, 

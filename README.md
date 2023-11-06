@@ -28,6 +28,9 @@ option to determine the “top_n” conditions to display. I did consider
 lumping factors and did partially implement, but did not have the time
 to properly integrate into the app.
 
+I added an extra feature of flipping the axes if more than 6 conditions
+are shown to avoid cluttering on the axis labels.
+
 ## P3) Add a drop-down menu to subset queries on sponsor tpye
 
 I created an additional `selectInput` called `sponsor_type` and use it
@@ -35,17 +38,18 @@ to filter `studies_df` within my `observeEvent` logic.
 
 ## P4) New app features added.
 
-I mainly implemented 1 main feature that results in a series of notable
+I mainly implemented 1 main feature that induced a series of notable
 changes for the app. I appreciated the `dataTableOutput` we had in the
 `mainPanel` that would display our keyword query results. However, I
 also wanted access to the aggregate data we used to display in each tab.
-Therefore, in order to implement that have the table displayed match the
-visual being shown, I moved the query results data table into its own
-tab, and in the other three tabs, displayed the corresponding table in
-the `mainPanel` below the `tabsetPanel`.
+Therefore, in order to implement that and have the table displayed match
+the visual being shown, I moved the query results data table into its
+own tab, and in the other three tabs, displayed the corresponding table
+(matching the visual created) in the `mainPanel` below the
+`tabsetPanel`.
 
-In having dynamic tables displayed for each tab, I had to the main
-`reactive({})` logic with `observeEvent({})`. In being able to
+In having dynamic tables displayed for each tab, I had to replace the
+main `reactive({})` logic with `observeEvent({})`. In being able to
 consolidate all my logic here and makes call to various `reactiveVal()`
 objects I at the top of my server function, I do think my app is slower
 to process and update based on changes as it is updating all tabs
@@ -56,6 +60,6 @@ conditions under the `Trial Conditions` tab rather than all the `top_n`
 conditions queried.
 
 My option to let a let user select the `top_n` conditions to visualize
-in the `Trial Conditions` is another, but less important feature I
+in the `Trial Conditions` is another but less important feature I
 created. This seemed like a reasonable extension to the app so users
 could create a histogram of interest to them.
