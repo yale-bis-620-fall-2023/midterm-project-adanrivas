@@ -1,0 +1,61 @@
+
+# midterm-project-adanrivas
+
+Fall 2023 BIS 620 Midterm Shiny App Project. Overview of problem
+solutions and features added.
+
+## P1) Fix Phase Histogram
+
+To standardize the x-axis, I defined `study_phases_u` in `ct-util.R`,
+which is the set of unique study phases. I made an extra pre-processing
+step to recode `NA` as `'Missing'`.
+
+I refactored `plot_phase_histogram` to include an argument for
+`phase_labels` that defaults to `study_phases_u`. I also added an
+optional for dropping or ignoring `'Not Applicable'` phase label,
+setting `TRUE` as the default.
+
+## P2) New Tab for Historgram Queried, Trial Conditions
+
+I have created an additional `TabPanel` called `Trial Conditions`, which
+displays the output of `plot_study_conditions_histogram`. This function
+has two helper functions: `get_study_conditions` and
+`summarize_study_conditions`.
+
+The former collects the desired data from the `conditions` table, and
+the latter aggregates the data to enable visual. I provide the user
+option to determine the “top_n” conditions to display. I did consider
+lumping factors and did partially implement, but did not have the time
+to properly integrate into the app.
+
+## P3) Add a drop-down menu to subset queries on sponsor tpye
+
+I created an additional `selectInput` called `sponsor_type` and use it
+to filter `studies_df` within my `observeEvent` logic.
+
+## P4) New app features added.
+
+I mainly implemented 1 main feature that results in a series of notable
+changes for the app. I appreciated the `dataTableOutput` we had in the
+`mainPanel` that would display our keyword query results. However, I
+also wanted access to the aggregate data we used to display in each tab.
+Therefore, in order to implement that have the table displayed match the
+visual being shown, I moved the query results data table into its own
+tab, and in the other three tabs, displayed the corresponding table in
+the `mainPanel` below the `tabsetPanel`.
+
+In having dynamic tables displayed for each tab, I had to the main
+`reactive({})` logic with `observeEvent({})`. In being able to
+consolidate all my logic here and makes call to various `reactiveVal()`
+objects I at the top of my server function, I do think my app is slower
+to process and update based on changes as it is updating all tabs
+(visuals and tables), when a user input changes.
+
+If given more time, I would allow the user to access all trial
+conditions under the `Trial Conditions` tab rather than all the `top_n`
+conditions queried.
+
+My option to let a let user select the `top_n` conditions to visualize
+in the `Trial Conditions` is another, but less important feature I
+created. This seemed like a reasonable extension to the app so users
+could create a histogram of interest to them.
